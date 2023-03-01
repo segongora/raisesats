@@ -9,7 +9,6 @@ const app: Express = express();
 const token = process.env.WHATSAPP_TOKEN;
 
 app.use(body_parser.json());
-app.use(express.static('public'))
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
