@@ -30,7 +30,7 @@ app.post("/webhook", (req, res) => {
             let phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-            console.log('Llegué aca');
+            console.log('Publicando email');
             (0, axios_1.default)({
                 method: "POST",
                 url: BUBBLE_URL,
@@ -38,9 +38,8 @@ app.post("/webhook", (req, res) => {
                     message: msg_body,
                 },
                 headers: { "Content-Type": "application/json" },
-            }).
-                then((response) => {
-                console.log('response email', response);
+            }).then((response) => {
+                console.log('response email', JSON.stringify(response));
                 return (0, axios_1.default)({
                     method: "POST",
                     url: "https://graph.facebook.com/v15.0/" +
@@ -54,7 +53,7 @@ app.post("/webhook", (req, res) => {
                     },
                     headers: { "Content-Type": "application/json" },
                 }).then((response) => {
-                    console.log('response ack', response);
+                    console.log('response ack', JSON.stringify(response));
                     return;
                 });
             });
