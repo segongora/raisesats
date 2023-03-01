@@ -5,25 +5,19 @@ import express, { Express, Request } from 'express';
 import { WhatsappEntry } from './types';
 
 dotenv.config();
-const BUBBLE_URL = 'https://raisesats.bubbleapps.io/version-test/api/1.1/wf/whatsapp_message'
 
 const app: Express = express();
 const token = process.env.WHATSAPP_TOKEN;
 
 app.use(body_parser.json());
 
-// Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
 
-// Accepts POST requests at /webhook endpoint
 app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
-    // Parse the request body from the POST
     let body = req.body;
 
-    // Check the Incoming webhook message
     console.log(JSON.stringify(req.body, null, 2));
 
-    // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
     if (req.body.object) {
         if (
             req.body.entry &&
@@ -38,7 +32,7 @@ app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
             console.log('Publicando email')
             const bubbleEmail = await axios({
                 method: "POST",
-                url: BUBBLE_URL,
+                url: process.env.BUBBLE_URL,
                 data: {
                     message: msg_body,
                 },
@@ -66,7 +60,6 @@ app.get("/webhook", (req, res) => {
             console.log("WEBHOOK_VERIFIED");
             res.status(200).send(challenge);
         } else {
-            // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
         }
     }

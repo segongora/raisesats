@@ -17,19 +17,13 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 dotenv_1.default.config();
-const BUBBLE_URL = 'https://raisesats.bubbleapps.io/version-test/api/1.1/wf/whatsapp_message';
 const app = (0, express_1.default)();
 const token = process.env.WHATSAPP_TOKEN;
 app.use(body_parser_1.default.json());
-// Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
-// Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Parse the request body from the POST
     let body = req.body;
-    // Check the Incoming webhook message
     console.log(JSON.stringify(req.body, null, 2));
-    // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
     if (req.body.object) {
         if (req.body.entry &&
             req.body.entry[0].changes &&
@@ -42,7 +36,7 @@ app.post("/webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* (
             console.log('Publicando email');
             const bubbleEmail = yield (0, axios_1.default)({
                 method: "POST",
-                url: BUBBLE_URL,
+                url: process.env.BUBBLE_URL,
                 data: {
                     message: msg_body,
                 },
@@ -67,7 +61,6 @@ app.get("/webhook", (req, res) => {
             res.status(200).send(challenge);
         }
         else {
-            // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
         }
     }
