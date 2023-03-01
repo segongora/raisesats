@@ -33,11 +33,12 @@ app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
             req.body.entry[0].changes[0].value.messages &&
             req.body.entry[0].changes[0].value.messages[0]
         ) {
-            let phone_number_id =
-                req.body.entry[0].changes[0].value.metadata.phone_number_id;
-            let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-            let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-            const responseACK = await axios({
+            const message = req.body.entry[0].changes[0].value.messages[0];
+            let phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id;
+            let from = message.from;
+            let msg_body = message.text.body;
+
+            await axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
                     "https://graph.facebook.com/v12.0/" +
@@ -52,14 +53,19 @@ app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
                 headers: { "Content-Type": "application/json" },
             })
 
-            const responseBubble = await axios({
+            await axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url: BUBBLE_URL,
                 data: {
-                    message: msg_body,
+                    message: {
+                        from: from,
+                        body: msg_body,
+
+                    },
                 },
                 headers: { "Content-Type": "application/json" },
             })
+
         }
 
         res.sendStatus(200);
