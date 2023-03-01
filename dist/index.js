@@ -57,10 +57,7 @@ app.post("/webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 method: "POST",
                 url: BUBBLE_URL,
                 data: {
-                    message: {
-                        from: from,
-                        body: msg_body,
-                    },
+                    message: msg_body,
                 },
                 headers: { "Content-Type": "application/json" },
             });
