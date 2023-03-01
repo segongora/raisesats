@@ -52,10 +52,14 @@ app.post("/webhook", (req, res) => {
                         text: { body: "Ack: " + msg_body },
                     },
                     headers: { "Content-Type": "application/json" },
-                }).then((response) => {
-                    console.log('response ack', JSON.stringify(response));
-                    return;
                 });
+            }).then((response) => {
+                console.log('response ack', JSON.stringify(response));
+                return;
+            })
+                .catch((error) => {
+                console.log('error', JSON.stringify(error));
+                return;
             });
         }
         res.sendStatus(200).json();
