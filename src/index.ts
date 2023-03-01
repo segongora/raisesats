@@ -36,32 +36,35 @@ app.post("/webhook", (req: Request<unknown, any, WhatsappEntry>, res) => {
                 req.body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+            console.log('Llegué aca')
             axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-                url:
-                    "https://graph.facebook.com/v15.0/" +
-                    phone_number_id +
-                    "/messages?access_token=" +
-                    token,
+                url: BUBBLE_URL,
                 data: {
-                    messaging_product: "whatsapp",
-                    to: from,
-                    text: { body: "Ack: " + msg_body },
+                    message: msg_body,
                 },
                 headers: { "Content-Type": "application/json" },
-            }).then((response) => {
-                console.log('response ack', response)
-                return axios({
-                    method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-                    url: BUBBLE_URL,
-                    data: {
-                        message: msg_body,
-                    },
-                    headers: { "Content-Type": "application/json" },
+            }).
+                then((response) => {
+                    console.log('response email', response)
+                    return axios({
+                        method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+                        url:
+                            "https://graph.facebook.com/v15.0/" +
+                            phone_number_id +
+                            "/messages?access_token=" +
+                            token,
+                        data: {
+                            messaging_product: "whatsapp",
+                            to: from,
+                            text: { body: "Ack: " + msg_body },
+                        },
+                        headers: { "Content-Type": "application/json" },
+                    }).then((response) => {
+                        console.log('response ack', response)
+                        return
+                    })
                 })
-            }).then((response) => {
-                console.log('response email', response)
-            });
         }
 
 
