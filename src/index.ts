@@ -27,15 +27,15 @@ app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
             req.body.entry[0].changes[0].value.messages[0]
         ) {
             let phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id;
-            let from = req.body.entry[0].changes[0].value.messages[0].from;
+            let wfrom = req.body.entry[0].changes[0].value.messages[0].from;
             let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body;
             console.log('Publicando email')
             const bubbleEmail = await axios({
                 method: "POST",
                 url: process.env.BUBBLE_URL,
                 data: {
-                    message: msg_body
-                    WAfrom: from
+                    message: msg_body,
+                    wafrom: wfrom,
                    
                 },
                 headers: { "Content-Type": "application/json" },
