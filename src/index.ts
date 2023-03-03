@@ -34,8 +34,8 @@ app.post("/webhook", async (req: Request<unknown, any, WhatsappEntry>, res) => {
                 method: "POST",
                 url: process.env.BUBBLE_URL,
                 data: {
-                    message: msg_body,
-                    from: from
+                    message: msg_body
+                   
                 },
                 headers: { "Content-Type": "application/json" },
             })
