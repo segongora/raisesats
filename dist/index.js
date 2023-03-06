@@ -33,6 +33,7 @@ app.post("/webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* (
             let phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from;
             let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body;
+            let message_id = req.body.entry[0].changes[0].value.messages[0].id;
             console.log('Publicando email');
             const bubbleEmail = yield (0, axios_1.default)({
                 method: "POST",
@@ -40,6 +41,7 @@ app.post("/webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 data: {
                     message: msg_body,
                     wafrom: from,
+                    message_id: message_id,
                 },
                 headers: { "Content-Type": "application/json" },
             });
