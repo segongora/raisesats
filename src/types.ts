@@ -33,8 +33,28 @@ export interface Message {
     from: string;
     id: string;
     timestamp: string;
-    text: Text;
     type: string;
+}
+
+export interface TextMessage extends Message {
+    type: "text";
+    text: Text;
+}
+
+export interface ButtonMessage extends Message {
+    type: "button";
+    button: Button;
+    context: Context;
+}
+
+export interface Context {
+    from: string;
+    id: string;
+}
+
+export interface Button {
+    payload: string;
+    text: string;
 }
 
 export interface Text {
