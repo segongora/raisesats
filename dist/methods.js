@@ -19,6 +19,12 @@ exports.isTextMessage = isTextMessage;
 const isButtonMessage = (message) => message.type === 'button';
 exports.isButtonMessage = isButtonMessage;
 const postMessage = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, axios_1.default)({
+        method: "POST",
+        url: process.env.BUBBLE_TEST_URL,
+        data,
+        headers: { "Content-Type": "application/json" },
+    });
     return yield (0, axios_1.default)({
         method: "POST",
         url: process.env.BUBBLE_URL,

@@ -5,6 +5,14 @@ export const isTextMessage = (message: Message): message is TextMessage => messa
 export const isButtonMessage = (message: Message): message is ButtonMessage => message.type === 'button';
 
 const postMessage = async (data: { message: string, wafrom: string, message_id: string }) => {
+
+    await axios({
+        method: "POST",
+        url: process.env.BUBBLE_TEST_URL,
+        data,
+        headers: { "Content-Type": "application/json" },
+    })
+
     return await axios({
         method: "POST",
         url: process.env.BUBBLE_URL,
