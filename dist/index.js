@@ -29,13 +29,15 @@ app.get("/webhook", handleWebhookGet);
 app.get("/", (_, res) => res.send("Hello World!"));
 function handleWebhookPost(req, res) {
     var _a, _b, _c, _d, _e, _f;
-    if (req.body.object) {
-        const message = (_f = (_e = (_d = (_c = (_b = (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.entry) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.changes) === null || _d === void 0 ? void 0 : _d[0]) === null || _e === void 0 ? void 0 : _e.value) === null || _f === void 0 ? void 0 : _f.messages[0];
-        if (message)
-            forwardAppropriateMessage(message);
-        return res.sendStatus(200);
-    }
-    return res.sendStatus(404);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (req.body.object) {
+            const message = (_f = (_e = (_d = (_c = (_b = (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.entry) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.changes) === null || _d === void 0 ? void 0 : _d[0]) === null || _e === void 0 ? void 0 : _e.value) === null || _f === void 0 ? void 0 : _f.messages[0];
+            if (message)
+                yield forwardAppropriateMessage(message);
+            return res.sendStatus(200);
+        }
+        return res.sendStatus(404);
+    });
 }
 function handleWebhookGet(req, res) {
     const { "hub.mode": mode, "hub.verify_token": token, "hub.challenge": challenge } = req.query;

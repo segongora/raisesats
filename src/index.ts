@@ -20,10 +20,10 @@ app.post("/webhook", handleWebhookPost);
 app.get("/webhook", handleWebhookGet);
 app.get("/", (_, res) => res.send("Hello World!"));
 
-function handleWebhookPost(req: Request<unknown, any, WhatsappEntry>, res: Response) {
+async function handleWebhookPost(req: Request<unknown, any, WhatsappEntry>, res: Response) {
     if (req.body.object) {
         const message = req?.body?.entry?.[0]?.changes?.[0]?.value?.messages[0];
-        if (message) forwardAppropriateMessage(message);
+        if (message) await forwardAppropriateMessage(message);
         return res.sendStatus(200);
     }
 
