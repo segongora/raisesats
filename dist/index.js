@@ -26,13 +26,9 @@ app.use(body_parser_1.default.json());
 app.listen(PORT, () => console.log("Webhook is listening on port", PORT));
 app.post("/webhook", handleWebhookPost);
 app.get("/webhook", handleWebhookGet);
-app.get("/", (_, res) => {
-    debugger;
-    res.send("Hello World!");
-});
+app.get("/", (_, res) => res.send("Hello World!"));
 function handleWebhookPost(req, res) {
     var _a, _b, _c, _d, _e, _f;
-    console.log(JSON.stringify(req.body, null, 2));
     if (req.body.object) {
         const message = (_f = (_e = (_d = (_c = (_b = (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.entry) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.changes) === null || _d === void 0 ? void 0 : _d[0]) === null || _e === void 0 ? void 0 : _e.value) === null || _f === void 0 ? void 0 : _f.messages[0];
         if (message)

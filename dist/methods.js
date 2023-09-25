@@ -31,8 +31,8 @@ const postMessage = (data) => __awaiter(void 0, void 0, void 0, function* () {
         data,
         headers: { "Content-Type": "application/json" },
     });
-    console.log('Bubble response test: ', res_test.data);
-    console.log('Bubble response prod: ', res_prod.data);
+    console.log('Bubble response test: ', res_test.statusText);
+    console.log('Bubble response prod: ', res_prod.statusText);
     return res_prod;
 });
 const forwardButtonMessage = (message) => __awaiter(void 0, void 0, void 0, function* () {

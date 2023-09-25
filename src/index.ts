@@ -18,15 +18,9 @@ app.listen(PORT, () => console.log("Webhook is listening on port", PORT));
 
 app.post("/webhook", handleWebhookPost);
 app.get("/webhook", handleWebhookGet);
-app.get("/", (_, res) => {
-    debugger
-    res.send("Hello World!")
-}
-    );
+app.get("/", (_, res) => res.send("Hello World!"));
 
 function handleWebhookPost(req: Request<unknown, any, WhatsappEntry>, res: Response) {
-    console.log(JSON.stringify(req.body, null, 2));
-
     if (req.body.object) {
         const message = req?.body?.entry?.[0]?.changes?.[0]?.value?.messages[0];
         if (message) forwardAppropriateMessage(message);

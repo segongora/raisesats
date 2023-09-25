@@ -20,8 +20,8 @@ const postMessage = async (data: { message: string, wafrom: string, message_id: 
         headers: { "Content-Type": "application/json" },
     })
 
-    console.log('Bubble response test: ', res_test.data)
-    console.log('Bubble response prod: ', res_prod.data)
+    console.log('Bubble response test: ', res_test.statusText)
+    console.log('Bubble response prod: ', res_prod.statusText)
 
     return res_prod;
 }
