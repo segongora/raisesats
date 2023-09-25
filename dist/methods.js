@@ -20,12 +20,21 @@ const isButtonMessage = (message) => message.type === 'button';
 exports.isButtonMessage = isButtonMessage;
 const postMessage = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        return yield (0, axios_1.default)({
+        const res_test = yield (0, axios_1.default)({
+            method: "POST",
+            url: process.env.BUBBLE_TEST_URL,
+            data,
+            headers: { "Content-Type": "application/json" },
+        });
+        const res_prod = yield (0, axios_1.default)({
             method: "POST",
             url: process.env.BUBBLE_URL,
             data,
             headers: { "Content-Type": "application/json" },
         });
+        console.log('Bubble response test: ', res_test.data);
+        console.log('Bubble response prod: ', res_prod.data);
+        return res_prod;
     }
     catch (e) {
         console.log(e);
