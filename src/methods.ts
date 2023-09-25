@@ -5,26 +5,18 @@ export const isTextMessage = (message: Message): message is TextMessage => messa
 export const isButtonMessage = (message: Message): message is ButtonMessage => message.type === 'button';
 
 const postMessage = async (data: { message: string, wafrom: string, message_id: string }) => {
-
-    const res_test = await axios({
-        method: "POST",
-        url: process.env.BUBBLE_TEST_URL,
-        data,
-        headers: { "Content-Type": "application/json" },
-    })
-
-    const res_prod = await axios({
-        method: "POST",
-        url: process.env.BUBBLE_URL,
-        data,
-        headers: { "Content-Type": "application/json" },
-    })
-
-    console.log('Bubble response test: ', res_test.statusText)
-    console.log('Bubble response prod: ', res_prod.statusText)
-
-    return res_prod;
+    try {
+        return await axios({
+            method: "POST",
+            url: process.env.BUBBLE_URL,
+            data,
+            headers: { "Content-Type": "application/json" },
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
+
 
 export const forwardButtonMessage = async (message: ButtonMessage) => {
     const { from, button, id } = message;
