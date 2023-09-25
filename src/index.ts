@@ -18,7 +18,11 @@ app.listen(PORT, () => console.log("Webhook is listening on port", PORT));
 
 app.post("/webhook", handleWebhookPost);
 app.get("/webhook", handleWebhookGet);
-app.get("/", (_, res) => res.send("Hello World!"));
+app.get("/", (_, res) => {
+    debugger
+    res.send("Hello World!")
+}
+    );
 
 function handleWebhookPost(req: Request<unknown, any, WhatsappEntry>, res: Response) {
     console.log(JSON.stringify(req.body, null, 2));

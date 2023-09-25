@@ -6,19 +6,24 @@ export const isButtonMessage = (message: Message): message is ButtonMessage => m
 
 const postMessage = async (data: { message: string, wafrom: string, message_id: string }) => {
 
-    await axios({
+    const res_test = await axios({
         method: "POST",
         url: process.env.BUBBLE_TEST_URL,
         data,
         headers: { "Content-Type": "application/json" },
     })
 
-    return await axios({
+    const res_prod = await axios({
         method: "POST",
         url: process.env.BUBBLE_URL,
         data,
         headers: { "Content-Type": "application/json" },
     })
+
+    console.log('Bubble response test: ', res_test.data)
+    console.log('Bubble response prod: ', res_prod.data)
+
+    return res_prod;
 }
 
 export const forwardButtonMessage = async (message: ButtonMessage) => {
